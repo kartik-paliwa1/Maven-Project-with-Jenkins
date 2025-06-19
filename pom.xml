@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -14,8 +13,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>8</maven.compiler.source> <!-- CHANGED FROM 1.7 TO 8 -->
+    <maven.compiler.target>8</maven.compiler.target> <!-- CHANGED FROM 1.7 TO 8 -->
     <!--Version of plugin for code format every time code is commited -->
     <git-code-format-maven-plugin.version>3.0</git-code-format-maven-plugin.version>
   </properties>
@@ -45,6 +44,14 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.1</version>
+          <!-- No need for explicit configuration here if properties are set,
+               but adding it for clarity if you prefer: -->
+          <!--
+          <configuration>
+              <source>${maven.compiler.source}</source>
+              <target>${maven.compiler.target}</target>
+          </configuration>
+          -->
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
@@ -72,22 +79,22 @@
           <version>3.1.2</version>
         </plugin>
         <plugin>
-        <groupId>org.sonarsource.scanner.maven</groupId>
-        <artifactId>sonar-maven-plugin</artifactId>
-        <version>3.9.0.2155</version>
-        <executions>
-          <execution>
-            <phase>verify</phase>
-            <goals>
-              <goal>sonar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>3.9.0.2155</version>
+          <executions>
+            <execution>
+              <phase>verify</phase>
+              <goals>
+                <goal>sonar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
-  
+
   <profiles>
     <profile>
       <id>sonar</id>
@@ -110,59 +117,59 @@
         </plugins>
       </build>
     </profile>
-    
+
     <!--  git-hooks: only active when running alongside .git repo  -->
-<profile>
-<id>git-hooks</id>
-<activation>
-<activeByDefault>false</activeByDefault>
-<file>
-<exists>.git</exists><!-- Where .git exist-->
-</file>
-</activation>
-<build>
-<plugins>
-<plugin>
-<groupId>com.cosium.code</groupId>
-<artifactId>git-code-format-maven-plugin</artifactId>
-<version>${git-code-format-maven-plugin.version}</version>
-<executions>
-<!--  On commit, format the modified java files  -->
-<execution>
-<id>install-formatter-hook</id>
-<goals>
-<goal>install-hooks</goal>
-</goals>
-</execution>
-<!--  On Maven verify phase, fail if any file (including unmodified) is badly formatted  -->
-<execution>
-<id>validate-code-format</id>
-<goals>
-<goal>validate-code-format</goal>
-</goals>
-</execution>
-</executions>
-<configuration>
-<googleJavaFormatOptions>
-<aosp>false</aosp>
-</googleJavaFormatOptions>
-</configuration>
-</plugin>
-</plugins>
-</build>
-</profile>
+    <profile>
+      <id>git-hooks</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+        <file>
+          <exists>.git</exists><!-- Where .git exist-->
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.cosium.code</groupId>
+            <artifactId>git-code-format-maven-plugin</artifactId>
+            <version>${git-code-format-maven-plugin.version}</version>
+            <executions>
+              <!--  On commit, format the modified java files  -->
+              <execution>
+                <id>install-formatter-hook</id>
+                <goals>
+                  <goal>install-hooks</goal>
+                </goals>
+              </execution>
+              <!--  On Maven verify phase, fail if any file (including unmodified) is badly formatted  -->
+              <execution>
+                <id>validate-code-format</id>
+                <goals>
+                  <goal>validate-code-format</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <googleJavaFormatOptions>
+                <aosp>false</aosp>
+              </googleJavaFormatOptions>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
-  
-<distributionManagement>
-  <repository>
-    <id>testrel</id>
-    <name>testrel</name>
-    <url>http://localhost:8081/repository/testrel/</url>
-  </repository>
-  <snapshotRepository>
-    <id>snapshotrepo</id>
-    <name>snapshotrepo</name>
-    <url>http://localhost:8081/repository/snapshotrepo/</url>
-  </snapshotRepository>
-</distributionManagement>
+
+  <distributionManagement>
+    <repository>
+      <id>testrel</id>
+      <name>testrel</name>
+      <url>http://localhost:8081/repository/testrel/</url>
+    </repository>
+    <snapshotRepository>
+      <id>snapshotrepo</id>
+      <name>snapshotrepo</name>
+      <url>http://localhost:8081/repository/snapshotrepo/</url>
+    </snapshotRepository>
+  </distributionManagement>
 </project>
