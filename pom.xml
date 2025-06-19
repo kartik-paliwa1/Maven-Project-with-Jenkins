@@ -15,9 +15,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
-    <!-- Updated Version of plugin for code format to resolve IllegalAccessError -->
-    <!-- Version 5.0.0 and later generally support JDK 9+ properly. -->
-    <git-code-format-maven-plugin.version>5.0.0</git-code-format-maven-plugin.version>
+    <!-- CORRECTED: Updated Version of plugin for code format to a valid existing version -->
+    <git-code-format-maven-plugin.version>5.1.1</git-code-format-maven-plugin.version>
   </properties>
 
   <dependencies>
@@ -45,8 +44,6 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.1</version>
-          <!-- The source and target are defined in properties section,
-               so no need for explicit <configuration> here unless overriding. -->
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
@@ -126,7 +123,7 @@
           <plugin>
             <groupId>com.cosium.code</groupId>
             <artifactId>git-code-format-maven-plugin</artifactId>
-            <version>${git-code-format-maven-plugin.version}</version> <!-- Now using the updated version from properties -->
+            <version>${git-code-format-maven-plugin.version}</version>
             <executions>
               <!--  On commit, format the modified java files  -->
               <execution>
