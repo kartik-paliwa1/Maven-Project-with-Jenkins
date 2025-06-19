@@ -13,10 +13,11 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>8</maven.compiler.source> <!-- CHANGED FROM 1.7 TO 8 -->
-    <maven.compiler.target>8</maven.compiler.target> <!-- CHANGED FROM 1.7 TO 8 -->
-    <!--Version of plugin for code format every time code is commited -->
-    <git-code-format-maven-plugin.version>3.0</git-code-format-maven-plugin.version>
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
+    <!-- Updated Version of plugin for code format to resolve IllegalAccessError -->
+    <!-- Version 5.0.0 and later generally support JDK 9+ properly. -->
+    <git-code-format-maven-plugin.version>5.0.0</git-code-format-maven-plugin.version>
   </properties>
 
   <dependencies>
@@ -44,14 +45,8 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.1</version>
-          <!-- No need for explicit configuration here if properties are set,
-               but adding it for clarity if you prefer: -->
-          <!--
-          <configuration>
-              <source>${maven.compiler.source}</source>
-              <target>${maven.compiler.target}</target>
-          </configuration>
-          -->
+          <!-- The source and target are defined in properties section,
+               so no need for explicit <configuration> here unless overriding. -->
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
@@ -102,7 +97,6 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.organization>acodebreaker</sonar.organization>
         <sonar.projectKey>acodebreaker_Maven-Using-CMD</sonar.projectKey>
-
       </properties>
       <build>
         <plugins>
@@ -132,7 +126,7 @@
           <plugin>
             <groupId>com.cosium.code</groupId>
             <artifactId>git-code-format-maven-plugin</artifactId>
-            <version>${git-code-format-maven-plugin.version}</version>
+            <version>${git-code-format-maven-plugin.version}</version> <!-- Now using the updated version from properties -->
             <executions>
               <!--  On commit, format the modified java files  -->
               <execution>
